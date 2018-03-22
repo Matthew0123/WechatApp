@@ -1,0 +1,30 @@
+<view class="container">
+  <view class="page-body">
+    <view class='page-section'>
+      <scroll-view class="weui-panel weui-panel_access" scroll-y="true" style="height:600px" bindscrolltolower="bindDownLoad">
+        <view class="weui-tab">
+            <view class="weui-navbar">
+                <block wx:for-items="{{tabs}}" wx:key="title">
+                    <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+                        <view class="weui-navbar__title">{{item.title}}</view>
+                    </view>
+                </block>
+                <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+            </view>
+            <view class="weui-tab__panel" wx:for="{{tabs}}" wx:key="title" hidden="{{activeIndex != index}}" >
+                <view class="weui-tab__content"   >
+                  <view class="weui-panel__bd" wx:for="{{item.list}}" wx:for-item="itemc" wx:key="id">
+                    <navigator  url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                              <view class="weui-media-box__title">{{itemc.title}}</view>
+                              <view class="weui-media-box__desc">{{itemc.snippet}}</view>
+                          </view>
+                      </navigator>
+                  </view>
+                </view>
+            </view>
+        </view>
+      </scroll-view>   
+    </view>
+  </view>
+</view>

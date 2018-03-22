@@ -1,13 +1,57 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+  <view class="page-body">
+    <view class='page-section'>
+      <view class="userinfo">
+        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}"                   background-size="cover"></image>
+        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+      </view>
+      </view>
+
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input weui-cell_btn">
+        <view class="weui-cell__hd">
+          <view class="weui-label">订阅</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="搜索内容" bindinput='searchInput'/>
+        </view>
+        <view class="weui-cell__ft">
+          <view class="weui-vcode-btn">
+            <image bindtap='addKeyword' class="search-avatar"        background-size="cover" src="../../style/images/add.png"></image>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <form bindsubmit="formSubmit">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input weui-cell_btn"  wx:for-items="{{keywords}}" wx:key="keyword">
+          <view class="weui-cell__hd">
+            <view class="weui-label">已预订</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="search{{index}}" value='{{item.keyword}}' placeholder="搜索内容"/>
+          </view>
+          <view class="weui-cell__ft">
+            <view class="weui-vcode-btn">
+              <image bindtap='minusKeyword' data-text='{{index}}' class="search-avatar" background-size="cover" src="../../style/images/minus.png"></image>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label">邮箱</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" name="email" placeholder="请输入邮箱"/>
+                </view>
+            </view>
+      </view>
+      <button class="weui-btn" type="primary" formType="submit">提交</button>
+    </form>
   </view>
 </view>

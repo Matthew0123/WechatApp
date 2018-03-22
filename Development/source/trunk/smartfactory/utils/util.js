@@ -15,5 +15,30 @@ const formatNumber = n => {
 }
 
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  objToStrMap: objToStrMap,
+  startWith: startWith
+}
+/** 
+*对象转换为Map 
+*/
+function objToStrMap(obj) {
+  let strMap = new Map();
+  for (let k of Object.keys(obj)) {
+    strMap.set(k, obj[k]);
+  }
+  return strMap;
+} 
+/**
+ * 字符串以开头
+ */ 
+function startWith(allstr,str)
+{
+  if (str == null || str == "" || allstr.length == 0 || str.length > allstr.length)
+    return false;
+  if (allstr.substr(0, str.length) == str)
+    return true;
+  else
+    return false;
+  return true;
 }

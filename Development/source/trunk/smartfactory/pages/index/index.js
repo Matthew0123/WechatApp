@@ -1,19 +1,17 @@
 //index.js
 //获取应用实例
 const app = getApp()
+var util = require('../../utils/util')
 
 Page({
   data: {
-    motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
-  },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    searchContent: '',
+    keywords: [{ keyword: "玉石" }, { keyword: "样式" }, { keyword: "价格" }],
+    modalHidden: true,
+    modalHidden2: true
   },
   onLoad: function () {
     if (app.globalData.userInfo) {
@@ -21,7 +19,7 @@ Page({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
       })
-    } else if (this.data.canIUse){
+    } else if (this.data.canIUse) {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
@@ -43,12 +41,97 @@ Page({
       })
     }
   },
-  getUserInfo: function(e) {
+  getUserInfo: function (e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+  },
+  addKeyword: function (e) {
+    console.log(this.data.keywords)
+    if (this.data.searchContent == "") {
+      wx.showModal({
+        content: '搜索内容为空，请确认！',
+        showCancel: false
+      });
+      return;
+    }
+    var searchKeywords = this.data.keywords;
+    var length = searchKeywords.length;
+    for (let i = 0; i < length; i++) {
+      if (searchKeywords[i].keyword == this.data.searchContent) {
+        wx.showModal({
+          content: '搜索内容已预订，请确认！',
+          showCancel: false
+        });
+        return;
+      }
+    }
+    var newObj = { keyword: this.data.searchContent };
+    searchKeywords.push(newObj);
+    this.setData({
+      keywords: searchKeywords
+    });
+  },
+  minusKeyword: function (e) {
+    console.log(e.currentTarget.dataset)
+    var dataset = e.currentTarget.dataset;
+    var searchKeywords = this.data.keywords;
+    searchKeywords.splice(dataset.text, 1);
+    this.setData({
+      keywords: searchKeywords
+    });
+  },
+  searchInput: function (e) {
+    console.log(e.detail.value)
+    this.setData({
+      searchContent: e.detail.value
+    })
+
+  },
+  formSubmit: function (e) {
+    var formData = e.detail.value;
+    let map = util.objToStrMap(formData);
+    var tabs = [];
+    for (var [key, value] of map)
+    {
+      if(util.startWith(key,"search"))
+      {
+        let obj = { title:value,list:[]};
+        tabs.push(obj);
+      }
+    }
+    var tabsStr= JSON.stringify(tabs);
+    console.log(tabsStr);
+    wx.showModal({
+      title: '提示',
+      content: '已输入完成，确定提交么？',
+      confirmText: "确定",
+      cancelText: "取消",
+      success: function (res) {
+        console.log(res);
+        if (res.confirm) {
+          wx.navigateTo({
+            url: '../contentlist/contentlist?tabs=' + tabsStr
+          })
+          // wx.request({
+          //   url: 'http://test.com:8080/test/socket.php?msg=2',
+          //   data: formData,
+          //   header: {
+          //     'Content-Type': 'application/json'
+          //   },
+          //   success: function (res) {
+          //     console.log(res.data)
+          //     that.modalTap();
+          //   }
+          // });
+          return;
+        } else {
+          return;
+        }
+      }
+    });
   }
 })
