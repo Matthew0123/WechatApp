@@ -31,7 +31,7 @@
             <view class="weui-label">已预订</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" name="search{{index}}" value='{{item.keyword}}' placeholder="搜索内容"/>
+            <input class="weui-input" name="search{{index}}" value='{{item.words}}' placeholder="搜索内容"/>
           </view>
           <view class="weui-cell__ft">
             <view class="weui-vcode-btn">

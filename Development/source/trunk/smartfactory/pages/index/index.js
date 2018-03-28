@@ -40,6 +40,32 @@ Page({
         }
       })
     }
+    var that =this;
+    wx.request({
+      url: app.globalData.domainName +'setting/getInfo',
+      data: {
+        weixin: app.globalData.openId
+      },
+      method: 'POST',
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      success: function (res) {
+        if(res.data.isOk)
+        {
+          that.setData({
+            keywords:res.data.value
+          })
+        }
+        else
+        {
+          wx.showModal({
+            content: '快讯查询失败，请重新加载！',
+            showCancel: false
+          });
+        }
+      }
+    });
   },
   getUserInfo: function (e) {
     console.log(e)
@@ -113,20 +139,28 @@ Page({
       success: function (res) {
         console.log(res);
         if (res.confirm) {
-          wx.navigateTo({
-            url: '../contentlist/contentlist?tabs=' + tabsStr
-          })
-          // wx.request({
-          //   url: 'http://test.com:8080/test/socket.php?msg=2',
-          //   data: formData,
-          //   header: {
-          //     'Content-Type': 'application/json'
-          //   },
-          //   success: function (res) {
-          //     console.log(res.data)
-          //     that.modalTap();
-          //   }
-          // });
+          wx.request({
+            url: app.globalData.domainName + 'setting/update',
+            data: {
+              weixin: app.globalData.openId
+            },
+            header: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            success: function (res) {
+              if (res.data.isOk) {
+                wx.navigateTo({
+                  url: '../contentlist/contentlist?tabs=' + tabsStr
+                })
+              }
+              else {
+                wx.showModal({
+                  content: '查询失败，请重新尝试！',
+                  showCancel: false
+                });
+              }
+            }
+          });
           return;
         } else {
           return;

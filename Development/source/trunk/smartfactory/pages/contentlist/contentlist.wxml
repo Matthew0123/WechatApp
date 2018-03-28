@@ -14,17 +14,17 @@
             <view class="weui-tab__panel" wx:for="{{tabs}}" wx:key="title" hidden="{{activeIndex != index}}" >
                 <view class="weui-tab__content"   >
                   <view class="weui-panel__bd" wx:for="{{item.list}}" wx:for-item="itemc" wx:key="id">
-                    <navigator  url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                    <view bindtap='pageskip' data-text='{{itemc.link}}' class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
                           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
                               <view class="weui-media-box__title">{{itemc.title}}</view>
                               <view class="weui-media-box__desc">{{itemc.snippet}}</view>
                           </view>
-                      </navigator>
+                      </view>
                   </view>
                 </view>
             </view>
         </view>
-      </scroll-view>   
+      </scroll-view>
     </view>
   </view>
 </view>

@@ -1,12 +1,13 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/contentlist/contentlist"
+    "pages/contentlist/contentlist",
+    "pages/webview/webview"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "百搜",
+    "navigationBarTitleText": "快订",
     "navigationBarTextStyle":"black"
   }
 }
